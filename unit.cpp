@@ -52,12 +52,23 @@ void Unit::Update(int numFrames) {
 }
 
 void Unit::Draw(Texture2D tex, int frameWidth, int frameHeight) {
-    DrawTextureRec(tex, {(float)frameWidth * currentFrame , 0, (float)frameWidth, (float)frameHeight}, position, WHITE);
+    if (flip)
+    {
+        DrawTextureRec(tex, {(float)frameWidth * currentFrame , 0, (float)-frameWidth, (float)frameHeight}, position, WHITE);
+    } else
+    {
+        DrawTextureRec(tex, {(float)frameWidth * currentFrame , 0, (float)frameWidth, (float)frameHeight}, position, WHITE);
+    }
 }
 
 void Unit::Animate(Texture2D tex, int numFrames, int frameWidth, int frameHeight) {
     Draw(tex, frameWidth, frameHeight);
     Update(numFrames);
+}
+
+void Unit::Move(Vector2 delta) {
+    position.x += delta.x;
+    position.y += delta.y;
 }
 
 

@@ -10,7 +10,7 @@ public:
     Vector2 position;
     void Attack();
     void Guard();
-    void Run();
+    void Run(int deltaX, int deltaY, std::string dir, bool move = true);
     void Idle();
 private:
     Texture2D tex;

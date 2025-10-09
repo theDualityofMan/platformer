@@ -14,6 +14,8 @@ public:
         void Update(int numFrames);
         void Animate(Texture2D tex, int numFrames, int frameWidth, int frameHeight);
 
+        void Move(Vector2 delta);
+
         virtual ~Unit();
 
         void loadTexturesFromChild();
@@ -26,6 +28,7 @@ public:
         int currentFrame = 0;
         float frameTime = 0.1f; // Time per frame in seconds
         float elapsedTime = 0.0f; // Time since last frame change
+        bool flip = false;
 
     private:
         Vector2 position;

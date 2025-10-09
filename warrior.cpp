@@ -22,7 +22,17 @@ void Warrior::Idle() {
     Animate(tex, 8, 192, 192);
 }
 
-void Warrior::Run() { 
+void Warrior::Run(int deltaX, int deltaY, std::string dir, bool move) { 
+    if(move){
+        if (std::string(dir) == "left"){
+            flip = true;
+            deltaX = -deltaX;
+        }
+        if (std::string(dir) == "right"){
+            flip = false;
+        }
+        Move({(float)deltaX, (float)deltaY});
+    }
     tex = getTexture("run");
     Animate(tex, 6, 192, 192);
 }

@@ -13,18 +13,27 @@ int main() {
 
 
     Warrior warrior1({100, 100});
-    Warrior warrior2({300, 100});
-    Warrior warrior3({500, 100});
-    Warrior warrior4({700, 100});
 
     while (!WindowShouldClose()) {
 
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        warrior1.Attack();
-        warrior2.Guard();
-        warrior3.Run();
-        warrior4.Idle();
+        
+        if(IsKeyDown(KEY_RIGHT)) {
+            warrior1.Run(3, 0, "right", true);
+        }
+        else if(IsKeyDown(KEY_LEFT)) {
+            warrior1.Run(3, 0, "left", true);
+        }
+        else if(IsKeyDown(KEY_UP)) {
+            warrior1.Attack();
+        }
+        else if(IsKeyDown(KEY_DOWN)) {
+            warrior1.Guard();
+        }
+        else{
+            warrior1.Idle();
+        }
         EndDrawing();
     }
     CloseWindow();
