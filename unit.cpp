@@ -71,7 +71,24 @@ void Unit::Move(Vector2 delta) {
     position.y += delta.y;
 }
 
+void Unit:: ApplyGravity() {
+    if (position.y < 600){
+        if(gravity < 20){
+            gravity += 0.5f;
+        }
+        if(position.y + gravity > 600){
+            position.y = 600;
+        } else {
+            position.y += gravity;
+        }
+        isGrounded = false;
 
+    } else {
+        gravity = 1.98f;
+        isGrounded = true;
+    }
+}
+//checkcollisionrecs
 
     
     

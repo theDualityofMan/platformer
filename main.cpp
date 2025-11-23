@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include "unit.h"
 #include "warrior.h"
+#include "blocks.h"
 
 int main() {
     const int monitorWidth = GetMonitorWidth(0);
@@ -13,22 +14,35 @@ int main() {
 
 
     Warrior warrior1({100, 100});
+    Block block1({600,600});
 
     while (!WindowShouldClose()) {
 
         BeginDrawing();
         ClearBackground(RAYWHITE);
+        block1.Draw();
         
+        warrior1.UpdateStatus();
         if(IsKeyDown(KEY_RIGHT)) {
+            if(IsKeyDown(KEY_UP)) {
+                warrior1.Jump();
+            }
             warrior1.Run(3, 0, "right", true);
         }
         else if(IsKeyDown(KEY_LEFT)) {
+            if(IsKeyDown(KEY_UP)) {
+                warrior1.Jump();
+            }
             warrior1.Run(3, 0, "left", true);
         }
         else if(IsKeyDown(KEY_UP)) {
+            warrior1.Idle();
+            warrior1.Jump();
+        }
+        else if(IsKeyDown(KEY_A)) {
             warrior1.Attack();
         }
-        else if(IsKeyDown(KEY_DOWN)) {
+        else if(IsKeyDown(KEY_G)) {
             warrior1.Guard();
         }
         else{

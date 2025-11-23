@@ -33,8 +33,13 @@ void Warrior::Run(int deltaX, int deltaY, std::string dir, bool move) {
         }
         Move({(float)deltaX, (float)deltaY});
     }
-    tex = getTexture("run");
-    Animate(tex, 6, 192, 192);
+    if(!isGrounded){
+        tex = getTexture("idle");
+        Animate(tex, 8, 192, 192);
+    } else{
+        tex = getTexture("run");
+        Animate(tex, 6, 192, 192);
+    }
 }
 
 void Warrior::Attack() {
@@ -50,5 +55,23 @@ void Warrior::Attack() {
 void Warrior::Guard() { 
     tex = getTexture("guard");
     Animate(tex, 6, 192, 192);
+}
+
+void Warrior:: Jump(){
+    if(!isGrounded) return;
+    isJumping = true;
+}
+
+void Warrior::UpdateStatus(){
+    ApplyGravity();
+    if(isJumping){
+        jumpClock += 0.016f;
+        if(jumpClock < 0.5f){
+            Move({0, -10});
+        } else{
+            isJumping = false;
+            jumpClock = 0.0f;
+        }
+    }
 }
 
