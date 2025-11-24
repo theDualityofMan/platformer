@@ -3,6 +3,9 @@
 Warrior :: Warrior(Vector2 pos)
         : Unit(pos) {
             position = pos;
+            frameWidth = 192;
+            height = 92;
+            width = 92;
             loadTexturesFromChild();
         }  
 
@@ -19,7 +22,7 @@ std::unordered_map<std::string, std::string> Warrior::getTexturePaths() const {
 
 void Warrior::Idle() { 
     tex = getTexture("idle");
-    Animate(tex, 8, 192, 192);
+    Animate(tex, 8, 51, 51);
 }
 
 void Warrior::Run(int deltaX, int deltaY, std::string dir, bool move) { 
@@ -35,10 +38,10 @@ void Warrior::Run(int deltaX, int deltaY, std::string dir, bool move) {
     }
     if(!isGrounded){
         tex = getTexture("idle");
-        Animate(tex, 8, 192, 192);
+        Animate(tex, 8, 51, 51);
     } else{
         tex = getTexture("run");
-        Animate(tex, 6, 192, 192);
+        Animate(tex, 6, 51, 51);
     }
 }
 
@@ -49,12 +52,12 @@ void Warrior::Attack() {
     } else if (currentFrame == 3 && tex.id == getTexture("attack2").id) {
         tex = getTexture("attack1");
     }
-    Animate(tex, 4, 192, 192);
+    Animate(tex, 4, 51, 51);
 }
 
 void Warrior::Guard() { 
     tex = getTexture("guard");
-    Animate(tex, 6, 192, 192);
+    Animate(tex, 6, 51, 51);
 }
 
 void Warrior:: Jump(){

@@ -1,9 +1,7 @@
 #include "unit.h"
 
 Unit :: Unit(Vector2 pos)
-        : position(pos)
-    {
-    }
+        : position(pos){}
 
 //Deconstructor to unload textures on window close
 Unit::~Unit() {
@@ -51,18 +49,19 @@ void Unit::Update(int numFrames) {
 
 }
 
-void Unit::Draw(Texture2D tex, int frameWidth, int frameHeight) {
+void Unit::Draw(Texture2D tex,float offsetX, float offsetY) {
     if (flip)
     {
-        DrawTextureRec(tex, {(float)frameWidth * currentFrame , 0, (float)-frameWidth, (float)frameHeight}, position, WHITE);
+        DrawTextureRec(tex, {((float)frameWidth * currentFrame) + offsetX , offsetY, (float)-width, (float)height}, position, WHITE);
     } else
     {
-        DrawTextureRec(tex, {(float)frameWidth * currentFrame , 0, (float)frameWidth, (float)frameHeight}, position, WHITE);
+        DrawTextureRec(tex, {((float)frameWidth * currentFrame) + offsetX , offsetY, (float)width, (float)height}, position, WHITE);
     }
 }
 
-void Unit::Animate(Texture2D tex, int numFrames, int frameWidth, int frameHeight) {
-    Draw(tex, frameWidth, frameHeight);
+void Unit::Animate(Texture2D tex, int numFrames, int offsetX, int offsetY) {
+    Draw(tex, (float)offsetX, (float)offsetY);
+    DrawRectangle(position.x, position.y, (float)width, (float)height, Color{255, 0, 0, 100});
     Update(numFrames);
 }
 
@@ -72,23 +71,48 @@ void Unit::Move(Vector2 delta) {
 }
 
 void Unit:: ApplyGravity() {
-    if (position.y < 600){
-        if(gravity < 20){
-            gravity += 0.5f;
-        }
-        if(position.y + gravity > 600){
-            position.y = 600;
-        } else {
-            position.y += gravity;
-        }
-        isGrounded = false;
-
-    } else {
+    if(isGrounded) {
         gravity = 1.98f;
-        isGrounded = true;
+        return;
+    };
+    if (gravity < 20){
+        gravity += 0.5f;
+    }
+    position.y += gravity;
+}
+
+void Unit::checkForCollisions(std::vector<std::unordered_map<std::string, int>> dims){
+
+    isGrounded = false;
+    for (auto& dim : dims){
+        Rectangle unitRec = {position.x, position.y, width, height};
+        Rectangle blockRec = {(float)dim["x"], (float)dim["y"], (float)dim["width"], (float)dim["height"]};
+
+        if (CheckCollisionRecs(unitRec, blockRec)) {
+
+            // Vertical collision (top or bottom)
+            if (position.y + height > dim["y"] && position.y < dim["y"] + dim["height"]) {
+                if (position.y < dim["y"]) {
+                    // Colliding from top
+                    position.y = dim["y"] - height;
+                    isGrounded = true;
+                    isJumping = false;
+                } else {
+                    // Colliding from bottom
+                    position.y = dim["y"] + dim["height"];
+                }
+            }
+            // Horizontal collision (left or right)
+            else if (position.x + width > dim["x"] && position.x < dim["x"] + dim["width"]) {
+                if (position.x < dim["x"]) {
+                    position.x = dim["x"] - width; // Move left
+                } else {
+                    position.x = dim["x"] + dim["width"]; // Move right
+                }
+            }
+        }
+
     }
 }
-//checkcollisionrecs
 
-    
     

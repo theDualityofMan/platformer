@@ -8,12 +8,14 @@ public:
 
     int attackPower;
     Vector2 position;
+
     void Attack();
     void Guard();
     void Run(int deltaX, int deltaY, std::string dir, bool move = true);
     void Idle();
     void Jump();
     void UpdateStatus();
+
 private:
     Texture2D tex;
 

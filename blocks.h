@@ -5,13 +5,12 @@
 #include <iostream>
 #include <unordered_map>
 
-class Block {
-    public:
+struct Block {
         Block(Vector2 pos);
         void Draw();
         std::unordered_map<std::string, int> GetDimensions();
-    protected:
     private:
         Vector2 position;
+        Texture2D texture;
 };
 
